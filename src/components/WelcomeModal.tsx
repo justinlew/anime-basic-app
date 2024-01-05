@@ -25,7 +25,8 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-  const initialRef = useRef<HTMLInputElement | null>(null);
+  const usernameRef = useRef<HTMLInputElement | null>(null);
+  const jobTitleRef = useRef<HTMLInputElement | null>(null);
 
   const handleNext = () => {
     if (page === 1) {
@@ -42,9 +43,13 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      initialRef.current?.focus();
+      if (page === 1) {
+        usernameRef.current?.focus();
+      } else {
+        jobTitleRef.current?.focus();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, page]);
 
   useEffect(() => {
     setIsOpen(
@@ -54,7 +59,11 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   }, []);
 
   return (
-    <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={() => {}}>
+    <Modal
+      initialFocusRef={page === 1 ? usernameRef : jobTitleRef}
+      isOpen={isOpen}
+      onClose={() => {}}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Welcome</ModalHeader>
@@ -64,7 +73,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
               <FormLabel htmlFor="username">Username</FormLabel>
               <Input
                 id="username"
-                ref={initialRef}
+                ref={usernameRef}
                 placeholder="Enter username"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
@@ -75,7 +84,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
               <FormLabel htmlFor="jobTitle">Job Title</FormLabel>
               <Input
                 id="jobTitle"
-                ref={initialRef}
+                ref={jobTitleRef}
                 placeholder="Enter job title"
                 value={jobTitle}
                 onChange={e => setJobTitle(e.target.value)}
