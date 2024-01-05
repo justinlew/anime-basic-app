@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEventHandler } from 'react';
 import {
   Box,
   Button,
@@ -24,8 +24,10 @@ const ProfilePage = () => {
     setJobTitle(storedJobTitle);
   }, []);
 
-  const handleUsernameChange = e => setUsername(e.target.value);
-  const handleJobTitleChange = e => setJobTitle(e.target.value);
+  const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = e =>
+    setUsername(e.target.value);
+  const handleJobTitleChange: ChangeEventHandler<HTMLInputElement> = e =>
+    setJobTitle(e.target.value);
 
   const saveProfile = () => {
     // Save user data to localStorage or send it to an API
