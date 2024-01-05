@@ -94,6 +94,13 @@ const InformationPage = () => {
     onOpen();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent, anime: Anime) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      openModal(anime);
+    }
+  };
+
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -116,10 +123,13 @@ const InformationPage = () => {
         {data.Page.media.map(anime => (
           <ListItem
             key={anime.id}
+            role="button"
+            tabIndex={0}
             border="1px"
             borderColor="gray.200"
             p={3}
             onClick={() => openModal(anime)}
+            onKeyDown={e => handleKeyDown(e, anime)}
           >
             <Flex align="center">
               <Image
